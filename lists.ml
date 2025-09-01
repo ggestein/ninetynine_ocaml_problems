@@ -240,8 +240,36 @@ let rec decode xs =
     # duplicate ["a"; "b"; "c"; "c"; "d"];;
     - : string list = ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"]
 *)
-(* TODO *)
 let rec duplicate = function
     | [] -> []
     | a :: rest -> a :: a :: (duplicate rest)
+;;
+
+(*
+    Replicate the Elements of a List a Given Number of Times
+    Replicate the elements of a list a given number of times.
+
+    # replicate ["a"; "b"; "c"] 3;;
+    - : string list = ["a"; "a"; "a"; "b"; "b"; "b"; "c"; "c"; "c"]
+*)
+let rec replicate xs n =
+    let rec dup_n x n = if n = 0 then [] else x :: (dup_n x (n - 1)) in
+    match xs with
+    | [] -> []
+    | a :: rest -> (dup_n a n) @ (replicate rest n)
+;;
+
+(*
+    Drop Every N'th Element From a List
+    Drop every N'th element from a list.
+
+    # drop ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
+    - : string list = ["a"; "b"; "d"; "e"; "g"; "h"; "j"]
+*)
+let rec drop xs n =
+    let rec drop_n acc xs =
+        match xs with
+        | [] -> []
+        | a :: rest -> if acc mod n = 0 then drop_n (acc + 1) rest else a :: (drop_n (acc + 1) rest)
+    in drop_n 1 xs
 ;;
