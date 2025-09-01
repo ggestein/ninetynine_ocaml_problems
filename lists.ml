@@ -211,8 +211,17 @@ let encode_1 xs =
     - : string list =
     ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"]
 *)
-(* TODO *)
-
+let rec decode xs =
+    let rec dup n e =
+        if n = 0 then []
+        else e :: (dup (n - 1) e) in
+    let dup_expand = function
+    | One a -> [a]
+    | Many (cnt, elem) -> dup cnt elem in
+    match xs with
+    | [] -> []
+    | a :: rest -> (dup_expand a) @ (decode rest)
+;;
 (*
     Run-Length Encoding of a List (Direct Solution)
     Implement the so-called run-length encoding data compression method directly. I.e. don't explicitly create the sublists containing the duplicates, as in problem "Pack consecutive duplicates of list elements into sublists", but only count them. As in problem "Modified run-length encoding", simplify the result list by replacing the singleton lists (1 X) by X.
