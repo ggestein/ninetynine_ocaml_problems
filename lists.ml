@@ -241,3 +241,7 @@ let rec decode xs =
     - : string list = ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"]
 *)
 (* TODO *)
+let rec duplicate = function
+    | [] -> []
+    | a :: rest -> a :: a :: (duplicate rest)
+;;
