@@ -158,8 +158,16 @@ let rec pack = function
     - : (int * string) list =
     [(4, "a"); (1, "b"); (2, "c"); (2, "a"); (1, "d"); (4, "e")]
 *)
-(* TODO *)
-
+let encode_0 xs =
+    let inner_fold_func acc x =
+        match acc with
+        | [] -> [(1, x)]
+        | a :: rest ->
+            let (cnt, letter) = a in
+            if letter = x then (cnt + 1, letter) :: rest
+            else (1, x) :: a :: rest in
+    List.rev (List.fold_left inner_fold_func [] xs)
+;;
 (*
     Modified Run-Length Encoding
     Modify the result of the previous problem in such a way that if an element has no duplicates it is simply copied into the result list. Only elements with duplicates are transferred as (N E) lists.
@@ -173,7 +181,27 @@ let rec pack = function
     [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d";
     Many (4, "e")]
 *)
-(* TODO *)
+type 'a rle =
+| One of 'a
+| Many of int * 'a
+;;
+let encode_1 xs =
+    let mff x =
+        let (cnt, letter) = x in
+        if cnt = 1 then One letter else Many (cnt, letter) in
+    let mfb x =
+        match x with
+        | One letter -> (1, letter)
+        | Many (cnt, letter) -> (cnt, letter) in
+    let encode_1_fold acc x =
+        match acc with
+        | [] -> [One x]
+        | a :: rest ->
+            let (cnt, letter) = (mfb a) in
+            if letter = x then mff ((cnt + 1), letter) :: rest
+            else mff (1, x) :: a :: rest in
+    List.rev (List.fold_left encode_1_fold [] xs)
+;;
 
 (*
     Decode a Run-Length Encoded List
