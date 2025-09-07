@@ -294,3 +294,24 @@ let rec split xs n =
        let (a, b) = (split tail (n - 1)) in
        ((h :: a), b)
 ;;
+(*
+  Extract a Slice From a List
+  Given two indices, i and k, the slice is the list containing the elements between the i'th and k'th element of the original list (both limits included).
+  Start counting the elements with 0 (this is the way the List module numbers elements).
+
+  # slice ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 2 6;;
+  - : string list = ["c"; "d"; "e"; "f"; "g"]
+ *)
+let slice xs i0 i1 =
+  let rec slice0 l s0 s1 acc =
+    if s1 < 0 then acc
+    else if s0 > 0 then
+      match l with
+      | [] -> acc
+      | h :: tail -> slice0 tail (s0 - 1) (s1 - 1) acc
+    else
+      match l with
+      | [] -> acc
+      | h :: tail -> slice0 tail (s0 - 1) (s1 - 1) (h :: acc)
+  in slice0 xs i0 i1 []
+;;
