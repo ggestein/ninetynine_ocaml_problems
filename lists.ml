@@ -361,3 +361,16 @@ let rec insert_at n x xs =
      if n = 0 then x :: xs
      else h :: (insert_at (n - 1) x tail)
 ;;
+(*
+  Create a List Containing All Integers Within a Given Range
+  If first argument is greater than second, produce a list in decreasing order.
+
+  # range 4 9;;
+  - : int list = [4; 5; 6; 7; 8; 9]
+ *)
+let range i0 i1 =
+  let rec inner_range i0 i1 acc =
+    if i0 > i1 then acc
+    else i0 :: (inner_range (i0 + 1) i1 acc)
+  in inner_range i0 i1 []
+;;
