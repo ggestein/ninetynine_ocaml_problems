@@ -273,3 +273,24 @@ let rec drop xs n =
     | a :: rest -> if acc mod n = 0 then drop_n (acc + 1) rest else a :: (drop_n (acc + 1) rest)
   in drop_n 1 xs
 ;;
+(*
+  Split a List Into Two Parts; The Length of the First Part Is Given
+  Split a list into two parts; the length of the first part is given.
+
+  If the length of the first part is longer than the entire list, then the first part is the list and the second part is empty.
+
+  # split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
+  - : string list * string list =
+  (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"])
+  # split ["a"; "b"; "c"; "d"] 5;;
+  - : string list * string list = (["a"; "b"; "c"; "d"], [])
+ *)
+let rec split xs n =
+  if n = 0 then ([], xs)
+  else
+    match xs with
+    | [] -> ([],[])
+    | h :: tail ->
+       let (a, b) = (split tail (n - 1)) in
+       ((h :: a), b)
+;;
