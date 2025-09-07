@@ -374,3 +374,32 @@ let range i0 i1 =
     else i0 :: (inner_range (i0 + 1) i1 acc)
   in inner_range i0 i1 []
 ;;
+(*
+  Extract a Given Number of Randomly Selected Elements From a List
+  The selected items shall be returned in a list.
+  We use the Random module but and initialise it with Random.init 0 at the start of the function for reproducibility and validate the solution.
+  To make the function truly random, however, one should remove the call to Random.init 0
+
+  # rand_select ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 3;;
+  - : string list = ["e"; "c"; "g"]
+ *)
+let rand_select xs n =
+  let rec select_at f t i =
+    if i <= 0 then
+      match f with
+      | [] -> ([], t)
+      | h :: tail -> (tail, h :: t)
+    else
+      match f with
+      | [] -> ([], t)
+      | h :: tail ->
+         let (f1, t1) = select_at tail t (i - 1) in
+         (h :: f1, t1)
+  in let single_iter f t =
+       let idx = Random.int (List.length f) in
+       select_at f t idx
+     in let rec repeat f t n =
+          if n = 0 then (f, t)
+          else let (f1, t1) = repeat f t (n - 1) in single_iter f1 t1
+        in let (_, ret) = repeat xs [] n in ret
+;;
