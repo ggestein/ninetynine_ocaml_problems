@@ -315,3 +315,18 @@ let slice xs i0 i1 =
       | h :: tail -> slice0 tail (s0 - 1) (s1 - 1) (acc @ [h])
   in slice0 xs i0 i1 []
 ;;
+(*
+  Rotate a List N Places to the Left
+  Rotate a list N places to the left.
+
+  # rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 3;;
+  - : string list = ["d"; "e"; "f"; "g"; "h"; "a"; "b"; "c"]
+ *)
+let rec rotate xs n =
+  if n = 0 then xs
+  else
+    match xs with
+    | [] -> []
+    | h :: tail ->
+       rotate (tail @ [h]) (n - 1)
+;;
