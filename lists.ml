@@ -312,6 +312,6 @@ let slice xs i0 i1 =
     else
       match l with
       | [] -> acc
-      | h :: tail -> slice0 tail (s0 - 1) (s1 - 1) (h :: acc)
+      | h :: tail -> slice0 tail (s0 - 1) (s1 - 1) (acc @ [h])
   in slice0 xs i0 i1 []
 ;;
