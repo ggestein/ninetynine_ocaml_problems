@@ -330,3 +330,19 @@ let rec rotate xs n =
     | h :: tail ->
        rotate (tail @ [h]) (n - 1)
 ;;
+(*
+  Remove the K'th Element From a List
+  Remove the K'th element from a list.
+
+  The first element of the list is numbered 0, the second 1,...
+
+  # remove_at 1 ["a"; "b"; "c"; "d"];;
+  - : string list = ["a"; "c"; "d"]
+ *)
+let rec remove_at n xs =
+  match xs with
+  | [] -> []
+  | h :: tail ->
+     if n = 0 then tail
+     else h :: remove_at (n - 1) tail
+;;
