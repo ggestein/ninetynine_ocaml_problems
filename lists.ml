@@ -403,3 +403,18 @@ let rand_select xs n =
           else let (f1, t1) = repeat f t (n - 1) in single_iter f1 t1
         in let (_, ret) = repeat xs [] n in ret
 ;;
+(*
+  Lotto: Draw N Different Random Numbers From the Set 1..M
+  Draw N different random numbers from the set 1..M.
+  
+  The selected numbers shall be returned in a list.
+
+  # lotto_select 6 49;;
+  - : int list = [20; 28; 45; 16; 24; 38]
+ *)
+let lotto_select n m =
+  let rec inner_lotto_select acc l =
+    if acc = 0 then l
+    else (Random.int m) :: (inner_lotto_select (acc - 1) l)
+  in inner_lotto_select n []
+;;
