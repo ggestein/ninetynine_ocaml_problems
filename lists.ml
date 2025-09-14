@@ -418,3 +418,28 @@ let lotto_select n m =
     else (Random.int m) :: (inner_lotto_select (acc - 1) l)
   in inner_lotto_select n []
 ;;
+(*
+  Generate a Random Permutation of the Elements of a List
+  Generate a random permutation of the elements of a list.
+  
+  # permutation ["a"; "b"; "c"; "d"; "e"; "f"];;
+  - : string list = ["c"; "d"; "f"; "e"; "b"; "a"]
+ *)
+let rec permutation xs =
+  let rec sep_nth xs n =
+    match xs with
+    | [] -> (None, [])
+    | h :: tail ->
+       if n = 0 then (Some h, tail)
+       else
+         let (s, rest) = sep_nth tail (n - 1) in
+         (s, h :: rest)
+  in match xs with
+  | [] -> []
+  | _ ->
+     let (ss, rest) = sep_nth xs (Random.int (List.length xs))
+     in
+     match ss with
+     | Some s -> s :: (permutation rest)
+     | None -> rest
+;;
