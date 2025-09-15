@@ -455,8 +455,17 @@ let rec permutation xs =
   - : string list list =
   [["a"; "b"]; ["a"; "c"]; ["a"; "d"]; ["b"; "c"]; ["b"; "d"]; ["c"; "d"]]
  *)
-let rec extract xs =
-  match xs with
-  | [] -> []
-  | h :: tail -> (List.map (fun x -> [h; x]) tail) @ (extract tail)
+let rec extract k xs =
+  let len_xs = List.length xs in
+  if len_xs < k then []
+  else if len_xs = k then [xs]
+  else let rec extract_head k xs =
+         match xs with
+         | [] -> []
+         | h :: tail -> List.map (fun x -> h :: x) (extract (k - 1) tail)
+       in let extract_head_acc k xs acc =
+            match xs with
+            | [] -> acc
+            | h :: tail -> (extract_head k xs) @ (extract k tail) @ acc
+          in extract_head_acc k xs []
 ;;
